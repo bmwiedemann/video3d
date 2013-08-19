@@ -1,3 +1,6 @@
+help:
+	@echo "make clean unpack conv vid F=input.vid"
+
 #make unpack conv vid F=~/stuff/images/digicam/130818/MVI_0024.MOV
 vid:
 	cd out ; ffmpeg -i vid%04d.png -vcodec rawvideo -pix_fmt bgr24 ../outvid/vid002x.avi
@@ -13,6 +16,7 @@ test:
 	./mergepics.py out/vid0118.png in/vid011[89].png
 
 unpack:
+	mkdir -p in out outvid
 	cd in ; ffmpeg -i $F vid%04d.png
 
 clean:

@@ -1,4 +1,7 @@
 #!/usr/bin/perl -w
+# Copyright 2013 Bernhard M. Wiedemann <bernhard+video3d at lsmod de>
+# Licensed under GPL-2.0 (see COPYING)
+
 use strict;
 use Image::Magick;
 # takes input from ffmpeg -i MVI_0020.MOV vid%04d.png

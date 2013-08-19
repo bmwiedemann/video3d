@@ -1,0 +1,15 @@
+
+This software allows to convert certain 2d video into 3d
+
+For this to work, you need to have video filmed
+while moving at constant speed
+this version is optimized for videos taken on the righthand side
+
+The trick is to use the next frame for the 2nd eye. 
+
+Output is vertically interleaved as used by some LG 3D display
+
+usage: ./mergepics.py outputframe0001.png inputframe0001.png [inputframe0002.png]
+or to convert a whole video:
+    make clean unpack conv vid F=input.vid
+

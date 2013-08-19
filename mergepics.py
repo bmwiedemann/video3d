@@ -1,4 +1,9 @@
 #!/usr/bin/python
+# Copyright 2013 Bernhard M. Wiedemann <bernhard+video3d at lsmod de>
+# Licensed under GPL-2.0 (see COPYING)
+
+# convert certain 2d video into 3d
+
 import sys
 import re
 import gd
