@@ -24,22 +24,22 @@ foreach my $f (@f) {
 	push(@img, $img);
 }
 
-my @xy=$img[0]->Get('columns','rows');
+my @xy=$img[0]->Get('columns','rows'); # must be the same for both images
+my @xynew=@xy; $xynew[0]-=$crop; $xynew[1]/=2;
 if($crop) {
-	$img[0]->Crop(y=>0, x=>0, width=>$xy[0]-$crop, heigth=>$xy[1]);
-	$img[1]->Crop(y=>0, x=>$crop, width=>$xy[0], heigth=>$xy[1]);
+	$img[0]->Crop(y=>0, x=>0, width=>$xynew[0], heigth=>$xy[1]);
+	$img[1]->Crop(y=>0, x=>$crop, width=>$xynew[0], heigth=>$xy[1]);
 }
-@xy=$img[0]->Get('columns','rows');
-foreach my $y(0..($xy[1]-1)) {
-	next if not $y&1; # skip even lines
-	#$img[0]->Composite(image=>$img[1], gravity=>"NorthEast", compose=>"Copy", x=>0, y=>$y, geometry=>"$xy[0]x1+0+$y");
-	my @pix=$img[1]->GetPixels(width=>$xy[0], height=>1, x=>0, y=>$y, map=>"RGB", normalize=>"true");
-	#print "$y $#pix\n";
-	foreach my $x (0..($xy[0]-1)) {
-		my @p=($pix[$x*3], $pix[$x*3+1], $pix[$x*3+2]);
-		$img[0]->SetPixel(channel=>"RGB", x=>$x++, y=>$y, color=>\@p);
-	}
+for (0..1) {
+        $img[$_]->Resize(geometry=>"$xynew[0]x$xynew[1]!");
 }
-
+$img[0] = $img[0]->Montage(geometry=>"$xynew[0]x$xy[1]", gravity=>"north"); # grow canvas back to original height
+$img[0]->Composite(
+        compose=>'Over',
+        image=>$img[1],
+        x=>0,
+        y=>$xynew[1],
+);
+$img[0]->Set(depth=>8);
 #$img[0]->display();
 $img[0]->Write($out);
